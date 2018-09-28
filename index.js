@@ -62,6 +62,10 @@ program.command(`install [pkg]`)
     results.forEach(data => table.push(data));
 
     console.log(`\n${table.toString()}`);
+
+    console.log(
+      '\n\nTotal dependencies',
+      results.reduce((acc, item) => acc + item[2], 0));
   });
 
 program.parse(process.argv);
