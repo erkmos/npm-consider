@@ -51,7 +51,6 @@ program.command(`install [pkg]`)
   .action(async (pkg, cmd) => {
     const filename = fs.readFileSync(pkg);
     let packages = JSON.parse(filename).dependencies;
-    console.log(cmd);
     if (cmd.D) {
       packages = Object.assign(packages, JSON.parse(filename).devDependencies);
     }
