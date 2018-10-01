@@ -47,9 +47,14 @@ if (!process.argv.slice(2).length) {
 
 // feed it package.json path
 program.command(`install [pkg]`)
-  .action(async (pkg) => {
+  .option('-d', '--dev', 'Include dev dependencies')
+  .action(async (pkg, cmd) => {
     const filename = fs.readFileSync(pkg);
-    const packages = JSON.parse(filename).dependencies;
+    let packages = JSON.parse(filename).dependencies;
+    console.log(cmd);
+    if (cmd.D) {
+      packages = Object.assign(packages, JSON.parse(filename).devDependencies);
+    }
     console.log('Walking dependency tree...');
     const results = await bluebird.map(toPairs(packages), ([name, version]) => {
       return installPackage(name, version.replace(/[\~\^]/, ''));
